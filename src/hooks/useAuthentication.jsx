@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword, getAuth, updateProfile } from 'firebase/auth';
+import { createUserWithEmailAndPassword, getAuth, signOut, updateProfile } from 'firebase/auth';
 import { useEffect, useState } from 'react'
 
 const useAuthentication = () => {
@@ -47,6 +47,11 @@ const useAuthentication = () => {
         }
     }
 
+    const logout = () => {
+        checkIfIsCancelled();
+        signOut(auth);
+    }
+
     useEffect(() => {
         return () => setCancelled(true);
     }, []);
@@ -55,7 +60,8 @@ const useAuthentication = () => {
         auth,
         createUser,
         error,
-        loading
+        loading,
+        logout
     }
 }
 
