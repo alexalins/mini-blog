@@ -1,23 +1,21 @@
-import './App.css'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import { useEffect, useState } from 'react'
-import useAuthentication from './hooks/useAuthentication'
-import { onAuthStateChanged } from 'firebase/auth'
+import "./App.css";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { useEffect, useState } from "react";
+import useAuthentication from "./hooks/useAuthentication";
+import { onAuthStateChanged } from "firebase/auth";
 //context
-import { AuthProvider } from './context/AuthContext'
+import { AuthProvider } from "./context/AuthContext";
 //pages
-import Home from './pages/Home/Home'
-import About from './pages/About/About'
-import Login from './pages/Login/Login'
-import Register from './pages/Register/Register'
-import CreatePost  from './pages/CreatePost/CreatePost'
-import Dashboard  from './pages/Dashboard/Dashboard'
+import Home from "./pages/Home/Home";
+import About from "./pages/About/About";
+import Login from "./pages/Login/Login";
+import Register from "./pages/Register/Register";
+import CreatePost from "./pages/CreatePost/CreatePost";
+import Dashboard from "./pages/Dashboard/Dashboard";
 
 //componentes
-import Navbar from './components/Navbar/Navbar'
-import Footer from './components/Footer/Footer'
-
-
+import Navbar from "./components/Navbar/Navbar";
+import Footer from "./components/Footer/Footer";
 
 function App() {
   const [user, setUser] = useState(undefined);
@@ -28,33 +26,45 @@ function App() {
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       setUser(user);
-    })
-  }, [auth])
+    });
+  }, [auth]);
 
-  if(loadingUser) {
-    return <p>Carregando...</p>
+  if (loadingUser) {
+    return <p>Carregando...</p>;
   }
 
   return (
-    <div className='App'>
-      <AuthProvider value={{user}}>
+    <div className="App">
+      <AuthProvider value={{ user }}>
         <BrowserRouter>
-        <Navbar/>
-          <div className='container'>
+          <Navbar />
+          <div className="container">
             <Routes>
-              <Route path='/' element={<Home/>}></Route>
-              <Route path='/login' element={<Login/>}></Route>
-              <Route path='/register' element={<Register/>}></Route>
-              <Route path='/about' element={<About/>}></Route>
-              <Route path='/posts/create' element={<CreatePost/>}></Route>
-              <Route path='/dashboard' element={<Dashboard/>}></Route>
+              <Route path="/" element={<Home />}></Route>
+              <Route
+                path="/login"
+                element={!user ? <Login /> : <Navigate to="/" />}
+              ></Route>
+              <Route
+                path="/register"
+                element={!user ? <Register /> : <Navigate to="/" />}
+              ></Route>
+              <Route path="/about" element={<About />}></Route>
+              <Route
+                path="/posts/create"
+                element={user ? <CreatePost /> : <Navigate to="/login" />}
+              ></Route>
+              <Route
+                path="/dashboard"
+                element={user ? <Dashboard /> : <Navigate to="/login" />}
+              ></Route>
             </Routes>
           </div>
-        <Footer/>
+          <Footer />
         </BrowserRouter>
       </AuthProvider>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
