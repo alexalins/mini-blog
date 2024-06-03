@@ -10,3 +10,7 @@
   color: #aaa;
   margin-bottom: 2em;
 }
+
+.create_post textarea {
+    margin-bottom: 1em;
+}
