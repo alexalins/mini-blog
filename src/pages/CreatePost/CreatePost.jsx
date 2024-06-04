@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { useAuthValue } from "../../context/AuthContext";
 import { useInsertDocument } from "../../hooks/useInsertDocument";
 import styles from "./CreatePost.module.css";
@@ -12,19 +13,36 @@ const CreatePost = () => {
   const [formError, setFormError] = useState("");
   const { user } = useAuthValue();
   const {insertDocument, response} = useInsertDocument("posts");
+  const navigate = useNavigate();
 
   const hadleSubmit = (e) => {
     e.preventDefault();
     setFormError("");
+    //validacoes
+    try {
+      new URL(image);
+    } catch (error) {
+      setFormError('A imagem precisa ser uma URL.')
+    }
+
+    const tagsArray = tags.split(",").map((tag) => tag.trim().toLowerCase());
+
+    if (!title || !image || !tags || !body) {
+      setFormError("Por favor, preencha todos os campos!");
+    }
+
+    if(formError) return;
     //
     insertDocument({
       title,
       image,
       body,
-      tags,
+      tagsArray,
       uid: user.uid,
       createdBy: user.displayName
     })
+
+    navigate('/');
   };
 
   return (
@@ -78,6 +96,7 @@ const CreatePost = () => {
         {!response.loading && <button className="btn">Salvar</button>}
         {response.loading && <button className="btn" disabled>Aguarde...</button>}
         {response.error && <p className="error">{response.error}</p>}
+        {formError && <p className="error">{formError}</p>}
       </form>
     </div>
   );
