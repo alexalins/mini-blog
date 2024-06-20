@@ -17,6 +17,7 @@ import Dashboard from "./pages/Dashboard/Dashboard";
 import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
 import Search from "./pages/Search/Search";
+import Post from "./pages/Post/Post";
 
 function App() {
   const [user, setUser] = useState(undefined);
@@ -60,6 +61,7 @@ function App() {
                 element={user ? <Dashboard /> : <Navigate to="/login" />}
               ></Route>
               <Route path="/search" element={<Search />}></Route>
+              <Route path="/posts/:id" element={<Post />}></Route>
             </Routes>
           </div>
           <Footer />
