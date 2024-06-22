@@ -1,9 +1,35 @@
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import useFetchDocument from "../../hooks/useFetchDocument";
+
 import styles from "./Post.module.css";
 
 const Post = () => {
   const { id } = useParams();
-  return <div>Post {id}</div>;
+  const { document: post, loading } = useFetchDocument("posts", id);
+  return (
+    <div className={styles.post_container}>
+      {loading && <p>Carregando post...</p>}
+      {post && (
+        <>
+          <h1>{post.title}</h1>
+          <img src={post.image} alt={post.title} />
+          <p>{post.body}</p>
+          <h3>Este post se trata sobre:</h3>
+          <div className={styles.tags}>
+            {post.tagsArray.map((tag) => (
+              <p key={tag}>
+                <span>#</span>
+                {tag}
+              </p>
+            ))}
+          </div>
+          <div className={styles.button}>
+            <Link to='/' className="btn btn-dark">Voltar</Link>
+          </div>
+        </>
+      )}
+    </div>
+  );
 };
 
 export default Post;

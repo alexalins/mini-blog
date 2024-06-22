@@ -82,6 +82,11 @@ textarea::placeholder {
   border-radius: 0;
 }
 
+.btn.btn-dark:hover {
+  background-color: gray;
+  color: #fff;
+}
+
 .btn.btn-outline {
   background-color: transparent;
   border-radius: 0;
