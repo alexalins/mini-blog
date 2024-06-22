@@ -10,14 +10,15 @@ import Home from "./pages/Home/Home";
 import About from "./pages/About/About";
 import Login from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
-import CreatePost from "./pages/CreatePost/CreatePost";
+import CreatePost from "./pages/Posts/CreatePost/CreatePost";
 import Dashboard from "./pages/Dashboard/Dashboard";
 
 //componentes
 import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
 import Search from "./pages/Search/Search";
-import Post from "./pages/Post/Post";
+import Post from "./pages/Posts/Post/Post";
+import EditPost from "./pages/Posts/EditPost/EditPost";
 
 function App() {
   const [user, setUser] = useState(undefined);
@@ -62,6 +63,7 @@ function App() {
               ></Route>
               <Route path="/search" element={<Search />}></Route>
               <Route path="/posts/:id" element={<Post />}></Route>
+              <Route path="/posts/edit/:id" element={<EditPost />}></Route>
             </Routes>
           </div>
           <Footer />
